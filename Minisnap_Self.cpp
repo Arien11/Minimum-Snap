@@ -13,7 +13,7 @@ PolynomialTraj PolynomialTraj::minSnapTraj(const Eigen::MatrixXd &Pos, const Eig
   */
 
   int seg_num = Time.size();
-  Eigen::MatrixXd poly_coeff(seg_num, 3 * 6);   // 6项，那不是只是minJerk吗 2x3 - 1 + 1
+  Eigen::MatrixXd poly_coeff(seg_num, 3 * 6);   // 6项，那不是只是minJerk吗
   Eigen::VectorXd Px(6 * seg_num), Py(6 * seg_num), Pz(6 * seg_num);
 
   int num_f, num_p; // f表示定值向量, p表示优化向量
@@ -28,7 +28,8 @@ PolynomialTraj PolynomialTraj::minSnapTraj(const Eigen::MatrixXd &Pos, const Eig
   };
 
   /* ---------- end point derivative ---------- */
-  Eigen::VectorXd Dx = Eigen::VectorXd::Zero(seg_num * 6);    // 存放约束的向量 Dx: seg_num * (当前点的位置, 下个点的位置, 0, 0, 0, 0) 除了起点和终点有速度加速度约束其他点均为0
+  // 存放约束的向量 Dx: seg_num * (当前点的位置, 下个点的位置, 0, 0, 0, 0) 除了起点和终点有速度加速度约束其他点均为0
+  Eigen::VectorXd Dx = Eigen::VectorXd::Zero(seg_num * 6);    
   Eigen::VectorXd Dy = Eigen::VectorXd::Zero(seg_num * 6);
   Eigen::VectorXd Dz = Eigen::VectorXd::Zero(seg_num * 6);
 
@@ -133,7 +134,7 @@ PolynomialTraj PolynomialTraj::minSnapTraj(const Eigen::MatrixXd &Pos, const Eig
   // 每段有6行，每两行为一阶导
   // 每段0,2,4为t=0
   // 每段1,3,5为t=T
-  //aspdjas;
+
   // 起点微分约束，起点约束是用于t=0的,因而如下
   Ct(0, 0) = 1;
   Ct(2, 1) = 1;
@@ -156,7 +157,7 @@ PolynomialTraj PolynomialTraj::minSnapTraj(const Eigen::MatrixXd &Pos, const Eig
 
   // 从第二段开始, j-1是因为下标从0开始的其实也就是第2段
   // df中除了开头结尾，中间的都是2个为一组的，随便找
-  // dp中
+  // dp中每段是以四个为一组(开头的速度加速度2个，结尾的速度加速度2个)
   for (int j = 2; j < seg_num; j++)
   {
     // 位置都是定值在df中，其他都是待优化的在dp中
