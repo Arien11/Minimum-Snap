@@ -133,7 +133,7 @@ PolynomialTraj PolynomialTraj::minSnapTraj(const Eigen::MatrixXd &Pos, const Eig
   // 每段有6行，每两行为一阶导
   // 每段0,2,4为t=0
   // 每段1,3,5为t=T
-
+  //aspdjas;
   // 起点微分约束，起点约束是用于t=0的,因而如下
   Ct(0, 0) = 1;
   Ct(2, 1) = 1;
