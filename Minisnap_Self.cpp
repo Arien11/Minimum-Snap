@@ -235,7 +235,6 @@ PolynomialTraj PolynomialTraj::minSnapTraj(const Eigen::MatrixXd &Pos, const Eig
     poly_coeff.block(i, 6, 1, 6) = Py.segment(i * 6, 6).transpose();
     poly_coeff.block(i, 12, 1, 6) = Pz.segment(i * 6, 6).transpose();
   }
-  //asdjlkasldjk
   /* ---------- use polynomials ---------- */
   PolynomialTraj poly_traj;
   // 多项式中解算出轨迹
